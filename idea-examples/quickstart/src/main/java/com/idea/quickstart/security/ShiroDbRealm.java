@@ -46,10 +46,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
             throw new LockedAccountException();
         }
 
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(new ShiroUser(authUser.getId(), authUser.getAccount()), authUser.getPassword(),
+        return new SimpleAuthenticationInfo(new ShiroUser(authUser.getId(), authUser.getAccount()), authUser.getPassword(),
                 ByteSource.Util.bytes(authUser.getCredentialsSalt()), "Shiro Db Realm");
-
-        return info;
     }
 
     public void setSystemService(SystemService systemService) {

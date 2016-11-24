@@ -11,7 +11,11 @@ public abstract class BaseEntity implements Serializable {
 
     protected Date createTime;
 
+    protected Long createBy;
+
     protected Date updateTime;
+
+    protected Long updateBy;
 
     protected Integer version;
 
@@ -45,5 +49,21 @@ public abstract class BaseEntity implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public Long getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(Long createBy) {
+        this.createBy = createBy;
+    }
+
+    public Long getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(Long updateBy) {
+        this.updateBy = updateBy;
     }
 }

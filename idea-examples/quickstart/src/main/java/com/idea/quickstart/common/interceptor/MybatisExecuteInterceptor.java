@@ -30,8 +30,7 @@ import java.util.Properties;
 public class MybatisExecuteInterceptor implements Interceptor {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    //private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -54,8 +53,6 @@ public class MybatisExecuteInterceptor implements Interceptor {
         long timing = end - start;
         
         logger.info("SQL execution time: {}ms, ID: {}, SQL detail: {}", timing, statementId, sql);
-        //logger.info("sql执行耗时：" + timing + " ms" + " - id:" + statementId + " - Sql:" + sql);
-        //System.out.println("耗时：" + timing + " ms" + " - id:" + statementId + " - Sql:" + sql);
         return result;
     }
 
@@ -99,7 +96,6 @@ public class MybatisExecuteInterceptor implements Interceptor {
     }
 
     private String replacePlaceholder(String sql, Object propertyValue) {
-    	DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String result;
         if (propertyValue != null) {
             if (propertyValue instanceof String) {
