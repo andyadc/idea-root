@@ -7,12 +7,15 @@ import net.sf.ehcache.Element;
 
 /**
  * @author andaicheng
- * @date 2016/4/17
+ * @version 2016/4/17
  */
-public final class EhCacheUtil {
+public class EhCacheUtil {
 
     private static CacheManager cacheManager = SpringContextHolder.getBean("ehCacheManager");
-    private static String SYS_CACHE = "sysCache";
+    private static final String SYS_CACHE = "sysCache";
+
+    private EhCacheUtil() {
+    }
 
     /**
      * 获取SYS_CACHE缓存
