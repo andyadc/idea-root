@@ -19,9 +19,6 @@ public class EhCacheUtil {
 
     /**
      * 获取SYS_CACHE缓存
-     *
-     * @param key
-     * @return
      */
     public static Object get(String key) {
         return get(SYS_CACHE, key);
@@ -29,9 +26,6 @@ public class EhCacheUtil {
 
     /**
      * 写入SYS_CACHE缓存
-     *
-     * @param key
-     * @return
      */
     public static void put(String key, Object value) {
         put(SYS_CACHE, key, value);
@@ -39,9 +33,6 @@ public class EhCacheUtil {
 
     /**
      * 从SYS_CACHE缓存中移除
-     *
-     * @param key
-     * @return
      */
     public static void remove(String key) {
         remove(SYS_CACHE, key);
@@ -49,10 +40,6 @@ public class EhCacheUtil {
 
     /**
      * 获取缓存
-     *
-     * @param cacheName
-     * @param key
-     * @return
      */
     public static Object get(String cacheName, String key) {
         Element element = getCache(cacheName).get(key);
@@ -61,10 +48,6 @@ public class EhCacheUtil {
 
     /**
      * 写入缓存
-     *
-     * @param cacheName
-     * @param key
-     * @param value
      */
     public static void put(String cacheName, String key, Object value) {
         Element element = new Element(key, value);
@@ -73,9 +56,6 @@ public class EhCacheUtil {
 
     /**
      * 从缓存中移除
-     *
-     * @param cacheName
-     * @param key
      */
     public static void remove(String cacheName, String key) {
         getCache(cacheName).remove(key);
