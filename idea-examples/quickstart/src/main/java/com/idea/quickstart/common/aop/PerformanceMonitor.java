@@ -11,10 +11,9 @@ public class PerformanceMonitor {
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
         long start = System.nanoTime();
         Object ret = point.proceed();
-        long end = System.nanoTime();
 
         LOGGER.info("{}: {}ms", point.getTarget().getClass() + "." + point.getSignature().getName(),
-                (end - start) / 1000000);
+                (System.nanoTime() - start) / 1000000);
         return ret;
     }
 }
