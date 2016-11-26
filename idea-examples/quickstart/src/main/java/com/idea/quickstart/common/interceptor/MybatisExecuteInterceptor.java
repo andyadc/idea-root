@@ -21,18 +21,19 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * MyBatis 性能拦截器，用于输出每条 SQL 语句及其执行时间
+ * MyBatis 性能拦截器，用于输出每条 SQL 语句及其执行时间<br>
+ * 测试用
  */
 @Intercepts({
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})
 })
 public class MybatisExecuteInterceptor implements Interceptor {
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	@Override
+    @Override
     public Object intercept(Invocation invocation) throws Throwable {
         MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
         Object parameterObject = null;
@@ -51,7 +52,7 @@ public class MybatisExecuteInterceptor implements Interceptor {
 
         long end = System.currentTimeMillis();
         long timing = end - start;
-        
+
         logger.info("SQL execution time: {}ms, ID: {}, SQL detail: {}", timing, statementId, sql);
         return result;
     }
@@ -66,6 +67,7 @@ public class MybatisExecuteInterceptor implements Interceptor {
 
     @Override
     public void setProperties(Properties properties) {
+        //ignore
     }
 
     private String getSql(BoundSql boundSql, Object parameterObject, Configuration configuration) {
