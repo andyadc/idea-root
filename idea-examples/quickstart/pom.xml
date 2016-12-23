@@ -9,7 +9,7 @@
     <artifactId>quickstart</artifactId>
     <packaging>war</packaging>
     <name>Idea :: Examples :: Quickstart</name>
-    <url>http://maven.apache.org</url>
+    <url>https://github.com/andyadc/idea-root</url>
 
     <properties>
         <jetty.version>9.4.0.v20161208</jetty.version>
