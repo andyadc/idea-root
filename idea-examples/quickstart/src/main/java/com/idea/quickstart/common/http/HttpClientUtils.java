@@ -1,6 +1,4 @@
-package com.idea.showcase.http;
-
-import com.idea.showcase.exception.ServiceException;
+package com.idea.quickstart.common.http;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -105,7 +103,7 @@ public class HttpClientUtils {
             response.close();
             return result;
         } catch (Exception e) {
-            throw new ServiceException("HTTP GET error: " + url, e);
+            throw new RuntimeException("HTTP GET error: " + url, e);
         }
     }
 
@@ -158,7 +156,7 @@ public class HttpClientUtils {
             response.close();
             return result;
         } catch (Exception e) {
-            throw new ServiceException("HTTP POST error: " + url, e);
+            throw new RuntimeException("HTTP POST error: " + url, e);
         }
     }
 
@@ -195,7 +193,7 @@ public class HttpClientUtils {
             response.close();
             return result;
         } catch (Exception e) {
-            throw new ServiceException("HTTP POST error: " + url, e);
+            throw new RuntimeException("HTTP POST error: " + url, e);
         }
     }
 

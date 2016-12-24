@@ -1,4 +1,4 @@
-package com.idea.showcase.util;
+package com.idea.quickstart.common.thread;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
