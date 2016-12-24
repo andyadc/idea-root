@@ -29,7 +29,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author andaicheng
- * @date 2016/4/16
+ * @version 2016/4/16
  */
 public final class CaptchaServlet extends HttpServlet {
 

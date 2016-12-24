@@ -8,7 +8,7 @@
             color: #666;
             text-align: center;
             font-family: Helvetica, 'microsoft yahei', Arial, sans-serif;
-            margin: 0;
+        / / margin: 0;
             width: 800px;
             margin: auto;
             font-size: 14px;

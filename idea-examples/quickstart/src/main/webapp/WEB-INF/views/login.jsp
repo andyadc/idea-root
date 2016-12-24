@@ -8,7 +8,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>登录</title>
+    <title>LOG IN</title>
 	<link rel="icon" href="${ctx}/static/images/Thunder_bolt.ico">
 	<link rel="stylesheet" href="${ctx}/static/css/login.css">
 	<link rel="stylesheet" href="${ctx}/static/plugins/toastr/toastr.min.css">

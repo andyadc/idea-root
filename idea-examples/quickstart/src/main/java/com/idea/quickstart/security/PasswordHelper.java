@@ -19,7 +19,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PasswordHelper {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PasswordHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PasswordHelper.class);
+
     private static final RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
     private static final String algorithmName = "SHA-1";
     private static final int hashIterations = 1024;
@@ -43,7 +44,7 @@ public class PasswordHelper {
             AuthenticationInfo info = new SimpleAuthenticationInfo(user.getAccount(), user.getPassword(), ByteSource.Util.bytes(user.getCredentialsSalt()), "verifyPassword");
             return matcher.doCredentialsMatch(token, info);
         } catch (Exception e) {
-            LOGGER.error("verifyPassword error", e);
+            LOG.error("verifyPassword error", e);
         }
         return false;
     }

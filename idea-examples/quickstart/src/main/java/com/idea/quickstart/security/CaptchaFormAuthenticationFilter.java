@@ -18,23 +18,23 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
 
-    public static final int LOGIN_FAILURE_LIMIT = 2;
+    private static final int LOGIN_FAILURE_LIMIT = 2;
     private static final String CAPTACHE_PARAM = "captcha";
 
     /**
      * 达到验证失败次数限制，传递标志属性，登录界面显示验证码输入
      */
-    public static final String KEY_AUTH_CAPTCHA_REQUIRED = "auth_captcha_required";
+    private static final String KEY_AUTH_CAPTCHA_REQUIRED = "auth_captcha_required";
 
     /**
      * 记录用户输入的用户名信息，用于登录界面回显
      */
-    public static final String KEY_AUTH_USERNAME_VALUE = "auth_username_value";
+    private static final String KEY_AUTH_USERNAME_VALUE = "auth_username_value";
 
     /**
      * 登录失败缓存前缀
      **/
-    public static final String CACHE_LOGIN_FAIL_PREFIX = "login_fail_times_";
+    private static final String CACHE_LOGIN_FAIL_PREFIX = "login_fail_times_";
 
     private SystemService systemService;
 

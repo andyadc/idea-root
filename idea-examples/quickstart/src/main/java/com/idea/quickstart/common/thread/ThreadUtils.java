@@ -5,7 +5,10 @@ import org.slf4j.LoggerFactory;
 
 public class ThreadUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(ThreadUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ThreadUtils.class);
+
+    private ThreadUtils() {
+    }
 
     public static void sleepOneSecond() {
         sleepSeconds(1);
@@ -13,10 +16,10 @@ public class ThreadUtils {
 
     public static void sleepSeconds(int seconds) {
         try {
-            logger.debug("Thread {} sleep {} seconds...", Thread.currentThread().getName(), seconds);
+            LOG.debug("Thread {} sleep {} seconds...", Thread.currentThread().getName(), seconds);
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
-            logger.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
         }
     }
 }
