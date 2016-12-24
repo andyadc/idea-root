@@ -2,7 +2,6 @@ package com.idea.quickstart.common.spring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -16,22 +15,22 @@ import java.io.IOException;
  * 以静态变量保存Spring ApplicationContext, 可在任何代码任何地方任何时候中取出ApplicaitonContext.
  *
  * @author andaicheng
- * @date 2016/4/17
+ * @version 2016/4/17
  */
 @Service
 @Lazy(false)
 public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SpringContextHolder.class);
     private static ApplicationContext applicationContext = null;
 
-    private static Logger logger = LoggerFactory.getLogger(SpringContextHolder.class);
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        logger.info("注入ApplicationContext到SpringContextHolder:" + applicationContext);
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        LOG.info("注入ApplicationContext到SpringContextHolder:" + applicationContext);
 
         if (SpringContextHolder.applicationContext != null) {
-            logger.info("SpringContextHolder中的ApplicationContext被覆盖, 原有ApplicationContext为:"
+            LOG.info("SpringContextHolder中的ApplicationContext被覆盖, 原有ApplicationContext为:"
                     + SpringContextHolder.applicationContext);
         }
 
@@ -46,7 +45,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
         try {
             rootRealPath = getApplicationContext().getResource("").getFile().getAbsolutePath();
         } catch (IOException e) {
-            logger.error("获取系统根目录失败");
+            LOG.error("获取系统根目录失败", e);
         }
         return rootRealPath;
     }
@@ -59,7 +58,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
         try {
             rootRealPath = new DefaultResourceLoader().getResource("").getFile().getAbsolutePath();
         } catch (IOException e) {
-            logger.error("获取资源根目录失败");
+            LOG.error("获取资源根目录失败", e);
         }
         return rootRealPath;
     }
@@ -101,7 +100,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
      * 清除SpringContextHolder中的ApplicationContext为Null.
      */
     public static void clear() {
-        logger.info("清除SpringContextHolder中的ApplicationContext:" + applicationContext);
+        LOG.info("清除SpringContextHolder中的ApplicationContext:" + applicationContext);
         applicationContext = null;
     }
 
