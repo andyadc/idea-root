@@ -27,6 +27,9 @@ public class HttpClientUtils {
         httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
     }
 
+    private HttpClientUtils() {
+    }
+
     public static String doGet(String url) {
         return doGet(url, null, null, CHARSET_UTF8);
     }
@@ -84,7 +87,7 @@ public class HttpClientUtils {
             if (headers != null && !headers.isEmpty()) {
                 Set<String> keys = headers.keySet();
                 for (Iterator<String> i = keys.iterator(); i.hasNext(); ) {
-                    String key = (String) i.next();
+                    String key = i.next();
                     httpGet.addHeader(key, headers.get(key));
                 }
             }
@@ -92,12 +95,12 @@ public class HttpClientUtils {
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK) {
                 httpGet.abort();
-                throw new RuntimeException("HttpClient,error status code :" + statusCode);
+                throw new RuntimeException("HttpClient, error status code: " + statusCode);
             }
             HttpEntity entity = response.getEntity();
             String result = null;
             if (entity != null) {
-                result = EntityUtils.toString(entity, "utf-8");
+                result = EntityUtils.toString(entity, CHARSET_UTF8);
             }
             EntityUtils.consume(entity);
             response.close();
@@ -145,12 +148,12 @@ public class HttpClientUtils {
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK) {
                 httpPost.abort();
-                throw new RuntimeException("HttpClient,error status code :" + statusCode);
+                throw new RuntimeException("HttpClient, error status code: " + statusCode);
             }
             HttpEntity entity = response.getEntity();
             String result = null;
             if (entity != null) {
-                result = EntityUtils.toString(entity, "utf-8");
+                result = EntityUtils.toString(entity, CHARSET_UTF8);
             }
             EntityUtils.consume(entity);
             response.close();
@@ -182,12 +185,12 @@ public class HttpClientUtils {
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK) {
                 httpPost.abort();
-                throw new RuntimeException("HttpClient,error status code :" + statusCode);
+                throw new RuntimeException("HttpClient,error status code: " + statusCode);
             }
             HttpEntity entity = response.getEntity();
             String result = null;
             if (entity != null) {
-                result = EntityUtils.toString(entity, "utf-8");
+                result = EntityUtils.toString(entity, CHARSET_UTF8);
             }
             EntityUtils.consume(entity);
             response.close();
