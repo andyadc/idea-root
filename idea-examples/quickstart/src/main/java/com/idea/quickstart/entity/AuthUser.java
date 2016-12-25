@@ -6,10 +6,13 @@ import java.util.Date;
 
 public class AuthUser extends BaseEntity {
 
-    private static final long serialVersionUID = 1522500841925591479L;
-    /** 删除标记 */
+    /**
+     * 删除标记
+     */
     public static final byte DELETED = 1;
-    /** 锁定状态 */
+    /**
+     * 锁定状态
+     */
     public static final byte STATUS_BLOCKED = 0;
 
     private String identity;
@@ -152,7 +155,7 @@ public class AuthUser extends BaseEntity {
         this.expireTime = expireTime;
     }
 
-    public String getCredentialsSalt(){
+    public String getCredentialsSalt() {
         return account + salt;
     }
 
