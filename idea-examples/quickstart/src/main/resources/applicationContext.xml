@@ -91,5 +91,6 @@
     </bean>
 
     <import resource="applicationContext-shiro.xml"/>
+    <import resource="applicationContext-redis.xml"/>
 
 </beans>
