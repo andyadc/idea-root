@@ -1,7 +1,8 @@
 package com.idea.quickstart.cache;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,6 +20,8 @@ import java.io.ObjectOutputStream;
 @Component
 public class RedisCache {
 
+    private static final Logger LOG = LoggerFactory.getLogger(RedisCache.class);
+
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -35,7 +38,8 @@ public class RedisCache {
         Object object;
 
         object = redisTemplate.execute(new RedisCallback<Object>() {
-            public Object doInRedis(RedisConnection connection) throws DataAccessException {
+            @Override
+            public Object doInRedis(RedisConnection connection) {
                 byte[] key = keyf.getBytes();
                 byte[] value = connection.get(key);
                 if (value == null) {
@@ -52,6 +56,7 @@ public class RedisCache {
         final Object valuef = value;
 
         redisTemplate.execute(new RedisCallback<Long>() {
+            @Override
             public Long doInRedis(RedisConnection connection) {
                 byte[] keyb = keyf.getBytes();
                 byte[] valueb = toByteArray(valuef);
@@ -67,6 +72,7 @@ public class RedisCache {
     public void del(Object key) {
         final String keyf = key.toString();
         redisTemplate.execute(new RedisCallback<Long>() {
+            @Override
             public Long doInRedis(RedisConnection connection) {
                 return connection.del(keyf.getBytes());
             }
@@ -76,6 +82,7 @@ public class RedisCache {
     public void exprie(Object key, final long liveTime) {
         final String keyf = key.toString();
         redisTemplate.execute(new RedisCallback<Boolean>() {
+            @Override
             public Boolean doInRedis(RedisConnection connection) {
                 return connection.expire(keyf.getBytes(), liveTime);
             }
@@ -85,6 +92,7 @@ public class RedisCache {
     public Boolean exist(Object key) {
         final String keyf = key.toString();
         return redisTemplate.execute(new RedisCallback<Boolean>() {
+            @Override
             public Boolean doInRedis(RedisConnection connection) {
                 return connection.exists(keyf.getBytes());
             }
@@ -93,6 +101,7 @@ public class RedisCache {
 
     public void clear() {
         redisTemplate.execute(new RedisCallback<String>() {
+            @Override
             public String doInRedis(RedisConnection connection) {
                 connection.flushDb();
                 return "ok";
@@ -109,6 +118,7 @@ public class RedisCache {
     public Long incr(Object key) {
         final String keyf = key.toString();
         return redisTemplate.execute(new RedisCallback<Long>() {
+            @Override
             public Long doInRedis(RedisConnection connection) {
                 return connection.incr(keyf.getBytes());
             }
@@ -124,6 +134,7 @@ public class RedisCache {
     public Long decr(Object key) {
         final String keyf = key.toString();
         return redisTemplate.execute(new RedisCallback<Long>() {
+            @Override
             public Long doInRedis(RedisConnection connection) {
                 return connection.decr(keyf.getBytes());
             }
@@ -144,7 +155,7 @@ public class RedisCache {
             oos.close();
             bos.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("toByteArray error!", e);
         }
         return bytes;
     }
@@ -161,7 +172,7 @@ public class RedisCache {
             ois.close();
             bis.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("toObject error!", e);
         }
         return obj;
     }
