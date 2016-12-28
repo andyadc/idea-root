@@ -7,7 +7,10 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * @author andaicheng
@@ -29,7 +32,7 @@ public class RedisCache {
 
     public Object get(Object key) {
         final String keyf = key.toString();
-        Object object = null;
+        Object object;
 
         object = redisTemplate.execute(new RedisCallback<Object>() {
             public Object doInRedis(RedisConnection connection) throws DataAccessException {
@@ -49,7 +52,7 @@ public class RedisCache {
         final Object valuef = value;
 
         redisTemplate.execute(new RedisCallback<Long>() {
-            public Long doInRedis(RedisConnection connection) throws DataAccessException {
+            public Long doInRedis(RedisConnection connection) {
                 byte[] keyb = keyf.getBytes();
                 byte[] valueb = toByteArray(valuef);
                 connection.set(keyb, valueb);
@@ -57,6 +60,72 @@ public class RedisCache {
                     connection.expire(keyb, liveTime);
                 }
                 return 1L;
+            }
+        });
+    }
+
+    public void del(Object key) {
+        final String keyf = key.toString();
+        redisTemplate.execute(new RedisCallback<Long>() {
+            public Long doInRedis(RedisConnection connection) {
+                return connection.del(keyf.getBytes());
+            }
+        });
+    }
+
+    public void exprie(Object key, final long liveTime) {
+        final String keyf = key.toString();
+        redisTemplate.execute(new RedisCallback<Boolean>() {
+            public Boolean doInRedis(RedisConnection connection) {
+                return connection.expire(keyf.getBytes(), liveTime);
+            }
+        });
+    }
+
+    public Boolean exist(Object key) {
+        final String keyf = key.toString();
+        return redisTemplate.execute(new RedisCallback<Boolean>() {
+            public Boolean doInRedis(RedisConnection connection) {
+                return connection.exists(keyf.getBytes());
+            }
+        });
+    }
+
+    public void clear() {
+        redisTemplate.execute(new RedisCallback<String>() {
+            public String doInRedis(RedisConnection connection) {
+                connection.flushDb();
+                return "ok";
+            }
+        });
+    }
+
+    /**
+     * 对key的值做加加操作,并返回新的值。 incr一个不存在的key，则设置key为1 方法描述: <br>
+     *
+     * @param key key
+     * @return 返回值：Long <br>
+     */
+    public Long incr(Object key) {
+        final String keyf = key.toString();
+        return redisTemplate.execute(new RedisCallback<Long>() {
+            public Long doInRedis(RedisConnection connection) {
+                return connection.incr(keyf.getBytes());
+            }
+        });
+    }
+
+    /**
+     * 对key的值做的是减减操作，decr一个不存在key，则设置key为-1 <br>
+     *
+     * @param key key
+     * @return 返回值：Long <br>
+     */
+    public Long decr(Object key) {
+        final String keyf = key.toString();
+        return redisTemplate.execute(new RedisCallback<Long>() {
+            public Long doInRedis(RedisConnection connection) {
+                return connection.decr(keyf.getBytes());
             }
         });
     }
@@ -74,8 +143,8 @@ public class RedisCache {
             bytes = bos.toByteArray();
             oos.close();
             bos.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return bytes;
     }
@@ -91,78 +160,9 @@ public class RedisCache {
             obj = ois.readObject();
             ois.close();
             bis.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return obj;
     }
-
-    public void del(Object key) {
-        final String keyf = key.toString();
-        redisTemplate.execute(new RedisCallback<Long>() {
-            public Long doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.del(keyf.getBytes());
-            }
-        });
-    }
-
-    public void exprie(Object key, final long liveTime) {
-        final String keyf = key.toString();
-        redisTemplate.execute(new RedisCallback<Boolean>() {
-            public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.expire(keyf.getBytes(), liveTime);
-            }
-        });
-    }
-
-    public Boolean exist(Object key) {
-        final String keyf = key.toString();
-        return redisTemplate.execute(new RedisCallback<Boolean>() {
-            public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.exists(keyf.getBytes());
-            }
-        });
-    }
-
-    public void clear() {
-        redisTemplate.execute(new RedisCallback<String>() {
-            public String doInRedis(RedisConnection connection) throws DataAccessException {
-                connection.flushDb();
-                return "ok";
-            }
-        });
-    }
-
-    /**
-     * 方法描述:对key的值做加加操作,并返回新的值。 incr一个不存在的key，则设置key为1 方法描述: <br>
-     * 创建时间: 2016年5月6日 下午6:51:28 <br>
-     *
-     * @param key key
-     * @return 返回值：Long <br>
-     */
-    public Long incr(Object key) {
-        final String keyf = key.toString();
-        return redisTemplate.execute(new RedisCallback<Long>() {
-            public Long doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.incr(keyf.getBytes());
-            }
-        });
-    }
-
-    /**
-     * 方法描述: 对key的值做的是减减操作，decr一个不存在key，则设置key为-1 <br>
-     * 创建时间: 2016年5月6日 下午6:53:01 <br>
-     *
-     * @param key key
-     * @return 返回值：Long <br>
-     */
-    public Long decr(Object key) {
-        final String keyf = key.toString();
-        return redisTemplate.execute(new RedisCallback<Long>() {
-            public Long doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.decr(keyf.getBytes());
-            }
-        });
-    }
-
 }
