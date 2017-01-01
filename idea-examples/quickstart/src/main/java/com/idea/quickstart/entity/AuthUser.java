@@ -2,8 +2,6 @@ package com.idea.quickstart.entity;
 
 import com.idea.quickstart.common.entity.BaseEntity;
 
-import java.util.Date;
-
 public class AuthUser extends BaseEntity {
 
     /**
@@ -15,7 +13,9 @@ public class AuthUser extends BaseEntity {
      */
     public static final byte STATUS_BLOCKED = 0;
 
-    private String identity;
+    private String identifier;
+
+    private String name;
 
     private String account;
 
@@ -23,32 +23,36 @@ public class AuthUser extends BaseEntity {
 
     private String salt;
 
-    private String authType;
-
-    private String nickname;
-
-    private String realname;
-
-    private String accessToken;
-
-    private Date accessTokenExpireTime;
-
     private String phone;
 
     private String email;
 
     private Byte status;
 
-    private Byte deleteFlag;
+    private Byte isDeleted;
 
-    private Date expireTime;
-
-    public String getIdentity() {
-        return identity;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdentity(String identity) {
-        this.identity = identity == null ? null : identity.trim();
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier == null ? null : identifier.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getAccount() {
@@ -75,46 +79,6 @@ public class AuthUser extends BaseEntity {
         this.salt = salt == null ? null : salt.trim();
     }
 
-    public String getAuthType() {
-        return authType;
-    }
-
-    public void setAuthType(String authType) {
-        this.authType = authType == null ? null : authType.trim();
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
-    }
-
-    public String getRealname() {
-        return realname;
-    }
-
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken == null ? null : accessToken.trim();
-    }
-
-    public Date getAccessTokenExpireTime() {
-        return accessTokenExpireTime;
-    }
-
-    public void setAccessTokenExpireTime(Date accessTokenExpireTime) {
-        this.accessTokenExpireTime = accessTokenExpireTime;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -139,39 +103,15 @@ public class AuthUser extends BaseEntity {
         this.status = status;
     }
 
-    public Byte getDeleteFlag() {
-        return deleteFlag;
+    public Byte getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setDeleteFlag(Byte deleteFlag) {
-        this.deleteFlag = deleteFlag;
-    }
-
-    public Date getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Date expireTime) {
-        this.expireTime = expireTime;
+    public void setIsDeleted(Byte isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public String getCredentialsSalt() {
         return account + salt;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("AuthUser{");
-        sb.append("account='").append(account).append('\'');
-        sb.append(", identity='").append(identity).append('\'');
-        sb.append(", authType='").append(authType).append('\'');
-        sb.append(", nickname='").append(nickname).append('\'');
-        sb.append(", realname='").append(realname).append('\'');
-        sb.append(", phone='").append(phone).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", status=").append(status);
-        sb.append(", deleteFlag=").append(deleteFlag);
-        sb.append('}');
-        return sb.toString();
     }
 }

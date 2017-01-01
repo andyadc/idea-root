@@ -39,7 +39,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
         if (authUser == null) {
             throw new UnknownAccountException();
         }
-        if (AuthUser.DELETED == authUser.getDeleteFlag()) {
+        if (AuthUser.DELETED == authUser.getIsDeleted()) {
             throw new UnknownAccountException();
         }
         if (AuthUser.STATUS_BLOCKED == authUser.getStatus()) {
