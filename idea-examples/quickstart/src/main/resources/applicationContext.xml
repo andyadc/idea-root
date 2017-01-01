@@ -43,7 +43,7 @@
 
     <!-- MyBatis -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="hikariDataSource"/>
         <property name="typeAliasesPackage" value="com.idea"/>
         <property name="typeAliasesSuperType" value="com.idea.quickstart.common.entity.BaseEntity"/>
         <property name="mapperLocations" value="classpath:/mappings/**/*Mapper.xml"/>
@@ -62,7 +62,7 @@
 
     <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="hikariDataSource"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"
@@ -75,8 +75,8 @@
         <property name="configLocation" value="classpath:cache/ehcache-local.xml"/>
     </bean>
 
-    <!-- dataSource -->
-    <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+    <!-- Tomcat jdbc dataSource -->
+    <bean id="tomcatDataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
           destroy-method="close">
         <!-- Connection Info -->
         <property name="driverClassName" value="${jdbc.driver}"/>
@@ -85,11 +85,31 @@
         <property name="password" value="${jdbc.password}"/>
 
         <!-- Connection Pooling Info -->
-        <property name="maxActive" value="${jdbc.pool.maxActive}"/>
-        <property name="maxIdle" value="${jdbc.pool.maxIdle}"/>
+        <property name="maxActive" value="${tomcat.jdbc.pool.maxActive}"/>
+        <property name="maxIdle" value="${tomcat.jdbc.pool.maxIdle}"/>
         <property name="minIdle" value="0"/>
         <property name="defaultAutoCommit" value="false"/>
     </bean>
+
+    <!-- HikariCP configuration -->
+    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="poolName" value="springHikariCP"/>
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maximumPoolSize" value="${hikari.pool.maximumPoolSize}"/>
+        <property name="idleTimeout" value="${hikari.pool.idleTimeout}"/>
+        <property name="connectionTestQuery" value="SELECT 1"/>
+        <property name="autoCommit" value="false"/>
+    </bean>
+
+    <!-- HikariCP dataSource -->
+    <bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource">
+        <constructor-arg ref="hikariConfig"/>
+    </bean>
+
+    <!-- import files -->
 
     <import resource="applicationContext-shiro.xml"/>
     <import resource="applicationContext-redis.xml"/>

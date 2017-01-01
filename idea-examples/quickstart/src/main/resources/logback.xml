@@ -46,15 +46,6 @@
         </encoder>
     </appender>
 
-    <!--log4jdbc -->
-	<logger name="jdbc.sqltiming" level="INFO">
-        <appender-ref ref="SQLFILE" />
-    </logger>
-	<logger name="jdbc.audit" level="OFF" />
-	<logger name="jdbc.connection" level="OFF" />
-	<logger name="jdbc.resultset" level="OFF" />
-	<logger name="jdbc.sqlonly" level="OFF" />
-
     <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
