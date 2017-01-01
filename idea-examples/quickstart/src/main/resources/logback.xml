@@ -46,6 +46,10 @@
         </encoder>
     </appender>
 
+    <logger name="com.idea.quickstart.mapper" level="DEBUG">
+        <appender-ref ref="SQLFILE"/>
+    </logger>
+
     <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
